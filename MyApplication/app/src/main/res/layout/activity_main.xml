@@ -6,7 +6,7 @@
     android:id="@+id/container">
 
     <fragment
-        android:id="@+id/listFragment"
+        android:id="@+id/mainFragment"
         android:name="com.example.helllo.myfragmentlistview.ListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
