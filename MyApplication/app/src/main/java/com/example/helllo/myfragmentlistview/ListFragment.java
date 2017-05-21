@@ -1,6 +1,5 @@
 package com.example.helllo.myfragmentlistview;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,18 +20,11 @@ import java.util.ArrayList;
 public class ListFragment extends Fragment {
     MainActivity activity;
     ListView listView;
-
     TextView textView;
     MyAdapter adapter;
-    Bundle bundle = new Bundle();
 
     //가수 앨범을 담을 리스트(SingerItem 객체를 담아둘 ArrayList 생성)
     ArrayList<SingerItem> album = new ArrayList<SingerItem>();
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
 
     @Nullable
     @Override
@@ -47,11 +39,10 @@ public class ListFragment extends Fragment {
         album.add(new SingerItem(R.drawable.img06, "이엑스아이디", "바나나컬쳐엔터테인먼트", "낮 보다는 밤"));
         album.add(new SingerItem(R.drawable.img07, "지코", "세븐시즌스", "SHES A BABY"));
 
-        adapter = new MyAdapter(getActivity(), R.layout.singer_item, album); // 어댑터 객체 생성
-
         listView = (ListView) rootView.findViewById(R.id.listView);
         textView = (TextView) rootView.findViewById(R.id.textView);
 
+        adapter = new MyAdapter(getActivity(), R.layout.singer_item, album); // 어댑터 객체 생성
         listView.setAdapter(adapter); //어댑터 객체를 리스트 뷰에 설정
 
         //리스트뷰에서 아이템 클릭시 이벤트 처리
@@ -73,18 +64,20 @@ public class ListFragment extends Fragment {
 
                 Toast.makeText(getContext(), "안녕하세요. " + curName + "입니다.", Toast.LENGTH_LONG).show();
 
+                // 아이템(album) 정보를 dataBundle에 저장
                 Bundle dataBundle = new Bundle();
                 dataBundle.putInt("img", album.get(position).resId);
                 dataBundle.putString("name", album.get(position).name);
                 dataBundle.putString("company", album.get(position).company);
                 dataBundle.putString("song", album.get(position).song);
 
+                // detailFragment에 dataBundle을 저장
                 activity.detailFragment.setArguments(dataBundle);
 
                 if(activity.rotate == 0){ // 세로
                     textView.setVisibility(View.INVISIBLE);
                     listView.setVisibility(View.INVISIBLE);
-                    activity.onFragmentChanged(1);
+                    activity.onFragmentChanged(1); // 파라미터가 1이면 detailFragment를 보이도록 하는것으로 정의했음
 
                 } else if(activity.rotate == 1){ // 가로
                     activity.detailFragment.initView();
